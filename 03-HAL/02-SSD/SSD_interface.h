@@ -1,13 +1,13 @@
 /********************************************************************/
 /* Author	: MOHAMED ABDELNABY								 	 	*/
-/* Date		: 22 Aug 2020                                           */
+/* Date		: 23 Aug 2020                                           */
 /* Version	: V01                                                	*/
 /********************************************************************/
 
-#ifndef LED_PRIVATE_H
-#define LED_PRIVATE_H
+#ifndef SSD_INTERFACE_H
+#define SSD_INTERFACE_H
 
-#define REVERSED	0
-#define FORWARD		1
+void SSD_voidInit();
+void SSD_voidDisplayNumber(u8 copy_u8Number);
 
 #endif
