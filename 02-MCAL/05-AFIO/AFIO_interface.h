@@ -1,0 +1,1 @@
+void MAFIO_voidSetEXTIconfiguration(u8 copy_u8Line, u8 copy_u8PortMap);

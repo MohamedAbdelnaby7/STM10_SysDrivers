@@ -1,0 +1,10 @@
+#ifndef EXTI_CONFIG_H
+#define EXTI_CONFIG_H
+
+/*Values from LINE0: LINE15*/
+#define EXTI_LINE	LINE0
+
+/*RISING FALLING CHANGING*/
+#define EXTI_MODE	RISING
+
+#endif
