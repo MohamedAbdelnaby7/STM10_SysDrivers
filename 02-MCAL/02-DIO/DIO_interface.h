@@ -51,8 +51,8 @@
 #define		OUTPUT_SPEED_50MHZ_AFOD		0b1111
 
 
-void MGPIO_voidSetPinDirection(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8MODE;
+void MGPIO_voidSetPinDirection(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8MODE);
 void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value);
-void MGPIO_voidGetPinValue(u8 copy_u8PORT, u8 copy_u8PIN);
+u8 MGPIO_u8GetPinValue(u8 copy_u8PORT, u8 copy_u8PIN);
 
 #endif

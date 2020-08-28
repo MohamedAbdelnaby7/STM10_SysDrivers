@@ -72,7 +72,7 @@ void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value)
 					{
 						SET_BIT(GPIOA_ODR, copy_u8PIN);
 					}
-					else if
+					else
 					{
 						CLR_BIT(GPIOA_ODR, copy_u8PIN);
 					}
@@ -82,7 +82,7 @@ void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value)
 					{
 						SET_BIT(GPIOB_ODR, copy_u8PIN);
 					}
-					else if
+					else
 					{
 						CLR_BIT(GPIOB_ODR, copy_u8PIN);
 					}
@@ -92,7 +92,7 @@ void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value)
 					{
 						SET_BIT(GPIOC_ODR, copy_u8PIN);
 					}
-					else if
+					else
 					{
 						CLR_BIT(GPIOC_ODR, copy_u8PIN);
 					}
@@ -121,7 +121,7 @@ void MGPIO_VoidTogPin(u8 Copy_u8PORT, u8 Copy_u8PIN)
 	}
 }
 
-void MGPIO_voidGetPinValue(u8 copy_u8PORT, u8 copy_u8PIN)
+u8 MGPIO_u8GetPinValue(u8 copy_u8PORT, u8 copy_u8PIN)
 {
 	u8 loc_u8Result = 0;
 	switch(copy_u8PORT)

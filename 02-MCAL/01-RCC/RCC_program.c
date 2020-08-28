@@ -92,9 +92,9 @@ void MRCC_voidEnableClock(u8 copy_u8BusId, u8 copy_u8PerId)
 		switch (copy_u8BusId)
 		{
 			//Enable the peripeheral
-			case AHB  : Set_BIT (RCC_AHBENR, copy_u8PerId); 	break;
-			case APB1 : Set_BIT (RCC_APB1ENR, copy_u8PerId);	break;
-			case APB2 :	Set_BIT (RCC_APB2ENR, copy_u8PerId);	break;
+			case AHB  : SET_BIT (RCC_AHBENR, copy_u8PerId); 	break;
+			case APB1 : SET_BIT (RCC_APB1ENR, copy_u8PerId);	break;
+			case APB2 :	SET_BIT (RCC_APB2ENR, copy_u8PerId);	break;
 			default		  : /*Return Error*/						break;
 		}
 	}
@@ -110,7 +110,7 @@ void MRCC_voidDisableClock(u8 copy_u8BusId, u8 copy_u8PerId)
 	if (copy_u8PerId <= 31)
 	{
 		//check on witch bus the peripheral belongs to
-		switch (Copy_u8BusId)
+		switch (copy_u8BusId)
 		{
 			//Disable the peripeheral
 			case AHB  : CLR_BIT (RCC_AHBENR, copy_u8PerId);		break;
