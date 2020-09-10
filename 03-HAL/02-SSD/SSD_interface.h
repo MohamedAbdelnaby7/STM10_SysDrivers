@@ -8,6 +8,6 @@
 #define SSD_INTERFACE_H
 
 void SSD_voidInit();
-void SSD_voidDisplayNumber(u8 copy_u8Number);
+void SSD_voidDisplayNumber(u8 Copy_u8Number);
 
 #endif
