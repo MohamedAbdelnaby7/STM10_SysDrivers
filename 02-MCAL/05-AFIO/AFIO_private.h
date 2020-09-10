@@ -1,3 +1,5 @@
+#ifndef AFIO_PRIVATE_H
+#define AFIO_PRIVATE_H
 typedef{
 	volatile u32 EVCR;
 	volatile u32 MAPR;
@@ -6,3 +8,5 @@ typedef{
 }AFIO_t;
 
 #define AFIO	((AFIO_t*)0x40010000)
+
+#endif
