@@ -16,22 +16,28 @@
 
 void LED_voidInit(u8 Copy_u8PORT, u8 Copy_u8PIN)
 {
-	MGPIO_voidSetPinDirection(copy_u8PORT, copy_u8PIN, LED_OUTPUT_MODE);
+	MGPIO_voidSetPinDirection(Copy_u8PORT, Copy_u8PIN, LED_OUTPUT_MODE);
 }
 
-void LED_voidOn(u8 copy_u8PORT, u8 copy_u8PIN)
+void LED_voidOn(u8 Copy_u8PORT, u8 Copy_u8PIN)
 {
-	MGPIO_voidSetPinValue(copy_u8PORT, copy_u8PIN, HIGH); 
+	if(LED_MODE == FORWARD)
+		MGPIO_voidSetPinValue(Copy_u8PORT, Copy_u8PIN, HIGH);
+	else
+		MGPIO_voidSetPinValue(Copy_u8PORT, Copy_u8PIN, LOW);
 }
 
-void LED_voidOff(u8 copy_u8PORT, u8 copy_u8PIN)
+void LED_voidOff(u8 Copy_u8PORT, u8 Copy_u8PIN)
 {
-	MGPIO_voidSetPinValue(copy_u8PORT, copy_u8PIN, LOW); 
+	if(LED_MODE == FORWARD)
+		MGPIO_voidSetPinValue(Copy_u8PORT, Copy_u8PIN, LOW);
+	else
+		MGPIO_voidSetPinValue(Copy_u8PORT, Copy_u8PIN, HIGH); 
 }
 
-void LED_voidTog(u8 copy_u8PORT, u8 copy_u8PIN)
+void LED_voidTog(u8 Copy_u8PORT, u8 Copy_u8PIN)
 {
-	MGPIO_VoidTogPin(copy_u8PORT, copy_u8PIN); 
+	MGPIO_VoidTogPin(Copy_u8PORT, Copy_u8PIN); 
 }
 
 

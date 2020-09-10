@@ -31,4 +31,10 @@
 						*/
 #define LED_OUTPUT_MODE 	OUTPUT_SPEED_10MHZ_PP
 
+/*choose the led connection mode:
+							FORWARD
+							REVERSED
+									*/
+#define LED_MODE	FORWARD
+
 #endif
