@@ -19,5 +19,6 @@
 * Return type : void
 ******************************************************************************/
 void delay_ms(u32 Copy_u32Time) ;
+void delay_Ms(u32 Copy_u32Time) ;
 
 #endif
