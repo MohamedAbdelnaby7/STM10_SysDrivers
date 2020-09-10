@@ -18,6 +18,7 @@ void MNVIC_voidInit(void)
 }
 void MNVIC_voidEnableInterrupt(u8 Copy_u8IntNumber)
 {
+	/*Disable interrupt of index = Copy_u8IntNumber*/
 	if ( Copy_u8IntNumber <= 31 )
 	{
 		NVIC_ISER0 = (1 << Copy_u8IntNumber);
@@ -35,6 +36,7 @@ void MNVIC_voidEnableInterrupt(u8 Copy_u8IntNumber)
 
 void MNVIC_voidDisableInterrupt(u8 Copy_u8IntNumber)
 {
+	/*Disable interrupt of index = Copy_u8IntNumber*/
 	if ( Copy_u8IntNumber <= 31 )
 	{
 		NVIC_ICER0 = (1 << Copy_u8IntNumber);
@@ -52,6 +54,7 @@ void MNVIC_voidDisableInterrupt(u8 Copy_u8IntNumber)
 
 void MNVIC_voidSetPendingFlag(u8 Copy_u8IntNumber)
 {
+	/*Setting pending flag by SW of index = Copy_u8IntNumber*/
 	if ( Copy_u8IntNumber <= 31 )
 	{
 		NVIC_ISPR0 = (1 << Copy_u8IntNumber);
@@ -69,6 +72,7 @@ void MNVIC_voidSetPendingFlag(u8 Copy_u8IntNumber)
 
 void MNVIC_voidClearPendingFlag(u8 Copy_u8IntNumber)
 {
+	/*Clearing pending flag by SW of index = Copy_u8IntNumber*/
 	if ( Copy_u8IntNumber <= 31 )
 	{
 		NVIC_ICPR0 = (1 << Copy_u8IntNumber);
@@ -86,6 +90,7 @@ void MNVIC_voidClearPendingFlag(u8 Copy_u8IntNumber)
 
 u8 MNVIC_u8GetActiveFlag(u8 Copy_u8IntNumber)
 {
+	/*return active flag status of index = Copy_u8IntNumber*/
 	u8 Local_u8Result;
 	if ( Copy_u8IntNumber <= 31 )
 	{
@@ -104,9 +109,7 @@ u8 MNVIC_u8GetActiveFlag(u8 Copy_u8IntNumber)
 }
 
 void MNVIC_voidSetPriority(s8 copy_s8PerIdx, u8 copy_u8Priority)
-{	
-	//u8 Local_u8Priority = copy_u8SubPriority | copy_u8GroupPriority << ((copy_u32GROUP -  0x05FA0300)/256);
-
+{
 	/*core peripheral*/
 	
 	/*external peripheral*/
