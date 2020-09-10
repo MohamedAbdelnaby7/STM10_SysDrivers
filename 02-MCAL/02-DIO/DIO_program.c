@@ -1,7 +1,7 @@
 /********************************************************************/
 /* Author	: MOHAMED ABDELNABY								 	 	*/
-/* Date		: 12 Aug 2020                                           */
-/* Version	: V01                                                	*/
+/* Date		: 08 Sep 2020                                           */
+/* Version	: V03                                               	*/
 /********************************************************************/
 
 #include "STD_TYPES.h"
@@ -11,7 +11,7 @@
 #include "DIO_private.h"
 #include "DIO_config.h"
 
-void MGPIO_voidSetPinDirection(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8MODE)
+void MGPIO_voidSetPinDirection (u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8MODE)
 {
 	//Check which port A, B, C, D, E, F, G is selected
 	switch(copy_u8PORT)
@@ -100,7 +100,6 @@ void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value)
 		default:
 					break;
 	}
-	
 }
 
 void MGPIO_VoidTogPin(u8 Copy_u8PORT, u8 Copy_u8PIN)
@@ -139,4 +138,77 @@ u8 MGPIO_u8GetPinValue(u8 copy_u8PORT, u8 copy_u8PIN)
 					break;
 	}
 	return loc_u8Result;
+}
+
+void MGPIO_voidSetPortValue(u8 Copy_u8PORT, u8 Copy_u8PortValue)
+{
+	switch(Copy_u8PORT)
+		{
+			case GPIOA :
+						GPIOA_ODR = Copy_u8PortValue;
+						break;
+			case GPIOB :
+						GPIOB_ODR = Copy_u8PortValue;
+						break;
+			case GPIOC :
+						GPIOC_ODR = Copy_u8PortValue;
+						break;
+			default	:
+						break;
+		}
+}
+
+void MGPIO_voidSetRestPortValue(u8 Copy_u8PORT, u8 Copy_u8PortValue)
+{
+	u16 Local_BSRRValue = ( ( (~Copy_u8PortValue) << 8) | (Copy_u8PortValue) );
+	switch(Copy_u8PORT)
+			{
+				case GPIOA :
+							GPIOA_BSRR = Local_BSRRValue;
+							break;
+				case GPIOB :
+							GPIOB_BSRR = Local_BSRRValue;
+							break;
+				case GPIOC :
+							GPIOC_BSRR = Local_BSRRValue;
+							break;
+				default	:
+							break;
+			}
+}
+
+void MGPIO_voidSetPinsValue(u8 Copy_u8PORT, u8 Copy_u8PortValue)
+{
+	switch(Copy_u8PORT)
+			{
+				case GPIOA :
+							GPIOA_BSRR = Copy_u8PortValue;
+							break;
+				case GPIOB :
+							GPIOB_BSRR = Copy_u8PortValue;
+							break;
+				case GPIOC :
+							GPIOC_BSRR = Copy_u8PortValue;
+							break;
+				default	:
+							break;
+			}
+}
+
+void MGPIO_voidRestPinsValue(u8 Copy_u8PORT, u8 Copy_u8PortValue)
+{
+	switch(Copy_u8PORT)
+			{
+				case GPIOA :
+							GPIOA_BRR = Copy_u8PortValue;
+							break;
+				case GPIOB :
+							GPIOB_BRR = Copy_u8PortValue;
+							break;
+				case GPIOC :
+							GPIOC_BRR = Copy_u8PortValue;
+							break;
+				default	:
+							break;
+			}
 }

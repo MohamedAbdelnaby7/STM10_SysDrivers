@@ -1,7 +1,7 @@
 /********************************************************************/
 /* Author	: MOHAMED ABDELNABY								 	 	*/
-/* Date		: 12 Aug 2020                                           */
-/* Version	: V01                                                	*/
+/* Date		: 08 Sep 2020                                           */
+/* Version	: V03                                               	*/
 /********************************************************************/
 
 #ifndef DIO_INTERFACE_H
@@ -53,6 +53,10 @@
 
 void MGPIO_voidSetPinDirection(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8MODE);
 void MGPIO_voidSetPinValue(u8 copy_u8PORT, u8 copy_u8PIN, u8 copy_u8Value);
-u8 MGPIO_u8GetPinValue(u8 copy_u8PORT, u8 copy_u8PIN);
+void MGPIO_voidGetPinValue(u8 copy_u8PORT, u8 copy_u8PIN);
+void MGPIO_voidSetPortValue(u8 Copy_u8PORT, u8 Copy_u8PortValue);
+void MGPIO_voidSetRestPortValue(u8 Copy_u8PORT, u8 Copy_u8PortValue);
+void MGPIO_voidSetPinsValue(u8 Copy_u8PORT, u8 Copy_u8PortValue);
+void MGPIO_voidRestPinsValue(u8 Copy_u8PORT, u8 Copy_u8PortValue);
 
 #endif
