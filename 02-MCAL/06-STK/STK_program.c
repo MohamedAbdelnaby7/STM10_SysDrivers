@@ -1,83 +1,141 @@
 /********************************************************************/
 /* Author	: MOHAMED ABDELNABY								 	 	*/
-/* Date		: 28 Aug 2020                                           */
+/* Date		: 26 Aug 2020                                           */
 /* Version	: V01                                                	*/
+/* Credits	: Eng.Ahmed Assaf                                      	*/
 /********************************************************************/
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
-#include "STK_INTERFACE.h"
-#include "STK_CONFIG.h"
-#include "STK_PRIVATE.h"
 
-void (*CallBack) (void);
+#include "STK_interface.h"
+#include "STK_private.h"
+#include "STK_config.h"
+
+
+/* Define Callback Global Variable */
+static void(*MSTK_CallBack)(void);
+
+/* Define Variable for interval mode */
+static u8 MSTK_u8ModeOfInterval;
 
 void MSTK_voidInit(void)
 {
-	STK_CTRL = 0x00000000;
-	#if(CLK_SOURCE == AHB)
-		SET_BIT(STK_CTRL, 2);
-	#elif(CLK_SOURCE == AHB_DIV_8)
+#if MSTK_CLK_SRC == MSTK_SRC_AHB
+    /* Disable STK - Disable STK Interrupt - Set clock source AHB */
+	MSTK -> CTRL = 0x00000004;
+#else
+    /* Disable STK - Disable STK Interrupt - Set clock source AHB/8 */
+	MSTK -> CTRL = 0;
+	
+#endif
+}
+
+void MSTK_voidSetBusyWait( u32 Copy_u32Ticks )
+{
+	/* Load ticks to load register */
+	MSTK -> LOAD = Copy_u32Ticks;
+	
+	/* Start Timer */
+	SET_BIT(MSTK->CTRL, 0);
+	
+	/* Wait till flag is raised */
+	while( (GET_BIT(MSTK->CTRL,16)) == 0);
+	
+	/* Stop Timer */
+	SET_BIT(MSTK->CTRL, 0);
+	MSTK -> LOAD = 0;
+	MSTK -> VAL  = 0;
+	
+}
+
+void MSTK_voidSetIntervalSingle  ( u32 Copy_u32Ticks, void (*Copy_ptr)(void) )
+{
+	/* Disable Timer */
+	CLR_BIT(MSTK->CTRL,0);
+	MSTK -> VAL = 0;
+
+	/* Load ticks to load register */
+	MSTK -> LOAD = Copy_u32Ticks;
+	
+	/* Start Timer */
+	SET_BIT(MSTK->CTRL, 0);
+	
+	/* Save CallBack */
+	MSTK_CallBack = Copy_ptr;
+	
+	/* Set Mode to Single */
+	MSTK_u8ModeOfInterval = MSTK_SINGLE_INTERVAL;
+	
+	/* Enable STK Interrupt */
+	SET_BIT(MSTK->CTRL, 1);
+}
+
+void MSTK_voidSetIntervalPeriodic( u32 Copy_u32Ticks, void (*Copy_ptr)(void) )
+{
+	/* Load ticks to load register */
+	MSTK -> LOAD = Copy_u32Ticks;
+	
+	/* Start Timer */
+	SET_BIT(MSTK->CTRL, 0);
+	
+	/* Save CallBack */
+	MSTK_CallBack = Copy_ptr;
+	
+	/* Set Mode to Single */
+	MSTK_u8ModeOfInterval = MSTK_PERIOD_INTERVAL;
+	
+	/* Enable STK Interrupt */
+	SET_BIT(MSTK->CTRL, 1);
+}
+
+void MSTK_voidStopInterval(void)
+{
+	/* Disable STK Interrupt */
+	CLR_BIT(MSTK->CTRL, 1);
+	
+	/* Stop Timer */
+	SET_BIT(MSTK->CTRL, 0);
+	MSTK -> LOAD = 0;
+	MSTK -> VAL  = 0;
+}
+
+u32  MSTK_u32GetElapsedTime(void)
+{
+	u32 Local_u32ElapsedTime;
+	
+	Local_u32ElapsedTime = MSTK -> LOAD - MSTK -> VAL ;
+	
+	return Local_u32ElapsedTime;
+}
+
+u32  MSTK_u32GetRemainingTime(void)
+{
+	u32 Local_u32RemainTime;
+	
+	Local_u32RemainTime = MSTK -> VAL ;
+	
+	return Local_u32RemainTime;
+}
+
+void SysTick_Handler(void)
+{
+	u8 Local_u8Temporary;
+	
+	if (MSTK_u8ModeOfInterval == MSTK_SINGLE_INTERVAL)
 	{
-		CLR_BIT(STK_CTRL, 2);
-	}	
-}
-
-void MSTK_voidSetBusyWait(u32 Copy_u32Ticks)
-{
-	#if (Copy_u32Ticks <= 0x00FFFFFF)
-		STK_LOAD = Copy_u32Ticks;
-		SET_BIT(CLK_CTRL, COUNTER_ENABLE);
-		while(GETBIT(STK_CTRL, COUNTER_FLAG) == 0);
-		CLR_BIT(STK_CTRL, COUNTER_ENABLE);
-	#else
-		#error "Timer maximum value exceeded."
-}
-
-void MSTK_voidSetIntervalSingle(u32 Copy_u32Ticks, void (*Copy_ptr) (void))
-{
-	#if (Copy_u32Ticks <= 0x00FFFFFF)
-		STK_LOAD = Copy_u32Ticks;
-		SET_BIT(CLK_CTRL, TICK_INT);
-		CallBack = Copy_ptr;
-		Is_Periodic = 0;
-		SET_BIT(CLK_CTRL, COUNTER_ENABLE);
-	#else
-		#error "Timer maximum value exceeded."
-}
-
-void MSTK_voidSetIntervalPeriodic(u32 Copy_u32Ticks, void (*Copy_ptr) (void))
-{
-	#if (Copy_u32Ticks <= 0x00FFFFFF)
-		STK_LOAD = Copy_u32Ticks;
-		SET_BIT(CLK_CTRL, TICK_INT);
-		CallBack = Copy_ptr;
-		Is_Periodic = 1;
-		SET_BIT(CLK_CTRL, COUNTER_ENABLE);
-	#else
-		#error "Timer maximum value exceeded."
-}
-
-void MSTK_voidStopInterval(void) {
-	CLR_BIT(STK_CTRL, 0);
-}
-
-u32 MSTIK_u32GetElapsedTime(void)
-{
-	return STK_VALUE - STK_LOAD;
-}
-
-
-u32 MSTIK_u32GetRemainingTime(void)
-{
-	return STK_VALUE;
-}
-
-void SysTick_Handler (void)
-{
-	CallBack();
-	if(~Is_Periodic)
-	{
-		STK_LOAD = 0x00000000;
+		/* Disable STK Interrupt */
+		CLR_BIT(MSTK->CTRL, 1);
+	
+		/* Stop Timer */
+		CLR_BIT(MSTK->CTRL, 0);
+		MSTK -> LOAD = 0;
+		MSTK -> VAL  = 0;
 	}
+	
+	/* Callback notification */
+	MSTK_CallBack();
+	
+	/* Clear interrupt flag */
+	Local_u8Temporary = GET_BIT(MSTK->CTRL,16);
 }
